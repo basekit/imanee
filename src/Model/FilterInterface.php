@@ -4,7 +4,6 @@ namespace Imanee\Model;
 
 use Imagick;
 use Imanee\Imanee;
-
 /**
  * Effect which can be applied to an image.
  */
@@ -18,8 +17,7 @@ interface FilterInterface
      *
      * @return Imagick
      */
-    public function apply(Imanee $imanee, array $options = []);
-
+    public function apply(Imanee $imanee, array $options = array());
     /**
      * Gets the filter name. It must be a unique identifier.
      *

@@ -25,7 +25,7 @@ class FilterResolverTest extends \PHPUnit_Framework_TestCase
     public function testShouldAddAndResolveFilter()
     {
         $filter = $this->getMockBuilder('Imanee\Filter\Imagick\BWFilter')
-            ->setMethods(['getName'])
+            ->setMethods(array('getName'))
             ->getMock();
 
         $filter->expects($this->once())

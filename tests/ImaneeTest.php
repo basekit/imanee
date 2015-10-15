@@ -29,7 +29,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testConstructorShouldSetCustomImageResource()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['load'])
+            ->setMethods(array('load'))
             ->getMock();
 
         $imanee = new Imanee(null, $resource);
@@ -39,7 +39,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldLoadImage()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['load'])
+            ->setMethods(array('load'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -52,7 +52,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldCreateNewImage()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['createNew'])
+            ->setMethods(array('createNew'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -66,7 +66,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldSetAndGetFormat()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['setFormat', 'getFormat'])
+            ->setMethods(array('setFormat', 'getFormat'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -86,7 +86,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldResize()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['resize'])
+            ->setMethods(array('resize'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -100,7 +100,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldNotResizeWhenImageIsSmallerThanBoxAndStretchIsFalse()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['resize'])
+            ->setMethods(array('resize'))
             ->getMock();
 
         $resource->expects($this->never())
@@ -113,7 +113,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldRotate()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['rotate'])
+            ->setMethods(array('rotate'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -127,7 +127,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldCrop()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['crop'])
+            ->setMethods(array('crop'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -141,7 +141,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldThumbnail()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['thumbnail'])
+            ->setMethods(array('thumbnail'))
             ->getMock();
 
         $resource->expects($this->at(0))
@@ -160,7 +160,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldNotThumbnailWhenImageIsSmallerThanBoxAndStretchIsFalse()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['thumbnail'])
+            ->setMethods(array('thumbnail'))
             ->getMock();
 
         $resource->expects($this->never())
@@ -174,7 +174,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetResource()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['crop'])
+            ->setMethods(array('crop'))
             ->getMock();
 
         $this->model->setResource($resource);
@@ -195,7 +195,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldAnnotateImage()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['annotate'])
+            ->setMethods(array('annotate'))
             ->getMock();
 
         $resource->expects($this->at(0))
@@ -203,7 +203,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
             ->with('test', 10, 10);
 
         $drawer = $this->getMockBuilder('Imanee\Drawer')
-            ->setMethods(['setFontSize'])
+            ->setMethods(array('setFontSize'))
             ->getMock();
 
         $drawer->expects($this->once())
@@ -230,7 +230,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldPlaceText()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['annotate'])
+            ->setMethods(array('annotate'))
             ->getMock();
 
         $resource->expects($this->at(0))
@@ -238,7 +238,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
             ->with('testing');
 
         $drawer = $this->getMockBuilder('Imanee\Drawer')
-            ->setMethods(['setFontSize'])
+            ->setMethods(array('setFontSize'))
             ->getMock();
 
         $drawer->expects($this->any())
@@ -265,7 +265,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldCompositeImage()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['compositeImage'])
+            ->setMethods(array('compositeImage'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -290,7 +290,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldPlaceImage()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['load', 'compositeImage'])
+            ->setMethods(array('load', 'compositeImage'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -307,7 +307,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldResizeBeforePlaceImage()
     {
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['resize'])
+            ->setMethods(array('resize'))
             ->getMock();
 
         $imanee->expects($this->once())
@@ -315,7 +315,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
             ->with(200, 200);
 
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['compositeImage'])
+            ->setMethods(array('compositeImage'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -349,7 +349,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldWatermark()
     {
         $mock = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['placeImage'])
+            ->setMethods(array('placeImage'))
             ->getMock();
 
         $mock->expects($this->once())
@@ -402,14 +402,14 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldApplyFilter()
     {
         $filter = $this->getMockBuilder('Imanee\Filter\Imagick\BWFilter')
-            ->setMethods(['apply'])
+            ->setMethods(array('apply'))
             ->getMock();
 
         $filter->expects($this->once())
             ->method('apply');
 
         $resolver = $this->getMockBuilder('Imanee\FilterResolver')
-            ->setMethods(['resolve'])
+            ->setMethods(array('resolve'))
             ->getMock();
 
         $resolver->expects($this->once())
@@ -417,7 +417,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($filter));
 
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['getFilterResolver'])
+            ->setMethods(array('getFilterResolver'))
             ->getMock();
 
         $imanee->expects($this->once())
@@ -453,10 +453,10 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($this->model->getFrames());
 
-        $this->model->addFrames([
+        $this->model->addFrames(array(
             'image03.jpg',
             'image04.jpg'
-        ]);
+        ));
 
         $this->assertCount(4, $this->model->getFrames());
     }
@@ -467,7 +467,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
         $this->model->addFrame('image02.jpg');
 
         $resource = $this->getMockBuilder('Imanee\ImageResource\ImagickResource')
-            ->setMethods(['animate'])
+            ->setMethods(array('animate'))
             ->getMock();
 
         $resource->expects($this->once())
@@ -491,7 +491,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
     public function testShouldTextGen()
     {
         $resource = $this->getMockBuilder('Imanee\ImageResource\GDResource')
-            ->setMethods(['getTextGeometry', 'createNew', 'setFormat', 'annotate'])
+            ->setMethods(array('getTextGeometry', 'createNew', 'setFormat', 'annotate'))
             ->getMock();
 
         $resource->expects($this->any())
@@ -501,7 +501,7 @@ class ImaneeTest extends \PHPUnit_Framework_TestCase
             ->method('annotate');
 
         $drawer = $this->getMockBuilder('Imanee\Drawer')
-            ->setMethods(['getFontSize'])
+            ->setMethods(array('getFontSize'))
             ->getMock();
 
         $drawer->expects($this->once())

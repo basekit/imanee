@@ -4,7 +4,6 @@ namespace Imanee\Filter\GD;
 
 use Imanee\Imanee;
 use Imanee\Model\FilterInterface;
-
 /**
  * Removes color from images.
  */
@@ -13,14 +12,12 @@ class BWFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(Imanee $imanee, array $options = [])
+    public function apply(Imanee $imanee, array $options = array())
     {
         /** @var resource $resource */
         $resource = $imanee->getResource()->getResource();
-
         return imagefilter($resource, IMG_FILTER_GRAYSCALE);
     }
-
     /**
      * {@inheritdoc}
      */

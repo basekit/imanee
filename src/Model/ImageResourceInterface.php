@@ -5,7 +5,6 @@ namespace Imanee\Model;
 use Imanee\Drawer;
 use Imanee\Exception\ImageNotFoundException;
 use Imanee\Exception\EmptyImageException;
-
 /**
  * Manipulates images.
  */
@@ -19,7 +18,6 @@ interface ImageResourceInterface
      * @throws ImageNotFoundException
      */
     public function load($image_path);
-
     /**
      * Creates a new "blank" image for this image resource.
      *
@@ -30,40 +28,34 @@ interface ImageResourceInterface
      * @return bool Returns true if successful.
      */
     public function createNew($width, $height, $background = 'white');
-
     /**
      * Gets the underlying image resource (Imagick object or GD resource).
      *
      * @return mixed
      */
     public function getResource();
-
     /**
      * Sets the underlying image resource  (Imagick object or GD resource).
      *
      * @param mixed $resource
      */
     public function setResource($resource);
-
     /**
      * Updates the computed width and height for the current Image Resource object.
      */
     public function updateResourceDimensions();
-
     /**
      * Gets the image mime type.
      *
      * @return string
      */
     public function getMime();
-
     /**
      * Gets the image format.
      *
      * @return string The image format
      */
     public function getFormat();
-
     /**
      * Sets the image format.
      *
@@ -72,21 +64,18 @@ interface ImageResourceInterface
      * @param string $format The image format, e.g: 'jpeg'.
      */
     public function setFormat($format);
-
     /**
      * GEts the image width.
      *
      * @return int
      */
     public function getWidth();
-
     /**
      * GEts the image height.
      *
      * @return int
      */
     public function getHeight();
-
     /**
      * Resizes an image.
      *
@@ -101,7 +90,6 @@ interface ImageResourceInterface
      * @throws EmptyImageException
      */
     public function resize($width, $height, $bestfit = true);
-
     /**
      * Rotates the image resource in the given degrees
      *
@@ -113,8 +101,7 @@ interface ImageResourceInterface
      * @return bool Returns true if successful.
      *
      */
-    public function rotate($degrees = 90.00, $background = 'transparent');
-
+    public function rotate($degrees = 90.0, $background = 'transparent');
     /**
      * Crops a portion of the image.
      *
@@ -127,7 +114,6 @@ interface ImageResourceInterface
      *
      */
     public function crop($width, $height, $coordX, $coordY);
-
     /**
      * Creates a thumbnail of the current resource. If crop is true, the result will be a perfect
      * fit thumbnail with the given dimensions, cropped by the center. If crop is false, the
@@ -141,7 +127,6 @@ interface ImageResourceInterface
      * @return bool True if successful
      */
     public function thumbnail($width, $height, $crop = false);
-
     /**
      * Outputs the image data as a string.
      *
@@ -153,7 +138,6 @@ interface ImageResourceInterface
      * @throws EmptyImageException
      */
     public function output($format = null);
-
     /**
      * Saves the image to disk. If the second parameter is provided, will try to compress the image
      * using JPEG compression.

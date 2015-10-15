@@ -17,37 +17,31 @@ use Imanee\Model\ImageFilterableInterface;
 use Imanee\Model\ImageResourceInterface;
 use Imanee\Model\ImageWritableInterface;
 use Imanee\Model\FilterInterface;
-
 class Imanee
 {
     /**
      * @var ImageResourceInterface
      */
     protected $resource;
-
     /**
      * The drawer settings
      *
      * @var Drawer
      */
     protected $drawer;
-
     /**
      * @var array
      */
     protected $frames;
-
     /**
      * The filter Resolver.
      *
      * @var FilterResolver
      */
     protected $filterResolver;
-
     const IM_POS_CENTER = 1;
     const IM_POS_LEFT = 2;
     const IM_POS_RIGHT = 3;
-
     const IM_POS_TOP_LEFT = 10;
     const IM_POS_TOP_RIGHT = 11;
     const IM_POS_TOP_CENTER = 12;
@@ -57,7 +51,6 @@ class Imanee
     const IM_POS_BOTTOM_LEFT = 16;
     const IM_POS_BOTTOM_RIGHT = 17;
     const IM_POS_BOTTOM_CENTER = 18;
-
     /**
      * @param null|string                 $path     Path to a image file, for opening an image
      *                                              without using the load() method.
@@ -69,24 +62,19 @@ class Imanee
     public function __construct($path = null, ImageResourceInterface $resource = null)
     {
         $this->drawer = new Drawer();
-
         if (!$resource) {
             $provider = new ResourceProvider(new PhpExtensionAvailabilityChecker());
             $resource = $provider->createImageResource();
         }
-
         $this->resource = $resource;
         if ($this->resource instanceof ImageFilterableInterface) {
             $this->filterResolver = new FilterResolver($this->resource->loadFilters());
         }
-
         if ($path) {
             $this->load($path);
         }
-
         return $this;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -94,7 +82,6 @@ class Imanee
     {
         $this->resource = clone $this->resource;
     }
-
     /**
      * Loads an image from a file.
      *
@@ -105,10 +92,8 @@ class Imanee
     public function load($imagePath)
     {
         $this->resource->load($imagePath);
-
         return $this;
     }
-
     /**
      * Creates a new "blank" image.
      *
@@ -121,10 +106,8 @@ class Imanee
     public function newImage($width, $height, $background = 'white')
     {
         $this->resource->createNew($width, $height, $background);
-
         return $this;
     }
-
     /**
      * Gets the mime type associated with the current resource (if available).
      *
@@ -134,7 +117,6 @@ class Imanee
     {
         return $this->resource->getMime();
     }
-
     /**
      * Sets the format to the current loaded resource.
      *
@@ -145,10 +127,8 @@ class Imanee
     public function setFormat($format)
     {
         $this->resource->setFormat($format);
-
         return $this;
     }
-
     /**
      * Gets the current format.
      *
@@ -158,7 +138,6 @@ class Imanee
     {
         return $this->resource->getFormat();
     }
-
     /**
      * Resizes the current image resource.
      *
@@ -174,15 +153,12 @@ class Imanee
      */
     public function resize($width, $height, $bestfit = true, $stretch = true)
     {
-        if (!$stretch and (($width >= $this->getWidth()) and ($height >= $this->getHeight()))) {
+        if (!$stretch and ($width >= $this->getWidth() and $height >= $this->getHeight())) {
             return $this;
         }
-
         $this->resource->resize($width, $height, $bestfit, $stretch);
-
         return $this;
     }
-
     /**
      * Rotates the image resource in the given degrees.
      *
@@ -196,10 +172,8 @@ class Imanee
     public function rotate($degrees, $background = 'transparent')
     {
         $this->resource->rotate($degrees, $background);
-
         return $this;
     }
-
     /**
      * Crops a portion of the image.
      *
@@ -213,10 +187,8 @@ class Imanee
     public function crop($width, $height, $coordX, $coordY)
     {
         $this->resource->crop($width, $height, $coordX, $coordY);
-
         return $this;
     }
-
     /**
      * Creates a thumbnail of the current resource. If crop is true, the result will be a perfect
      * fit thumbnail with the given dimensions, cropped by the center. If crop is false, the
@@ -233,15 +205,12 @@ class Imanee
      */
     public function thumbnail($width, $height, $crop = false, $stretch = true)
     {
-        if (!$stretch and (($width >= $this->getWidth()) and ($height >= $this->getHeight()))) {
+        if (!$stretch and ($width >= $this->getWidth() and $height >= $this->getHeight())) {
             return $this;
         }
-
         $this->resource->thumbnail($width, $height, $crop);
-
         return $this;
     }
-
     /**
      * Gets the width of the current image resource.
      *
@@ -251,7 +220,6 @@ class Imanee
     {
         return $this->resource->getWidth();
     }
-
     /**
      * Gets the height of the current image resource.
      *
@@ -261,15 +229,13 @@ class Imanee
     {
         return $this->resource->getHeight();
     }
-
     /**
      * Shortcut method to get width and height.
      */
     public function getSize()
     {
-        return ['width' => $this->getWidth(), 'height' => $this->getHeight()];
+        return array('width' => $this->getWidth(), 'height' => $this->getHeight());
     }
-
     /**
      * Output the current image resource as a string.
      *
@@ -281,7 +247,6 @@ class Imanee
     {
         return $this->resource->output($format);
     }
-
     /**
      * Convenient way to output the image.
      *
@@ -291,7 +256,6 @@ class Imanee
     {
         return $this->output();
     }
-
     /**
      * Saves the image to disk. If the second param is provided, will try to compress the image
      * using JPEG compression.
@@ -309,10 +273,8 @@ class Imanee
     public function write($path, $jpeg_quality = null)
     {
         $this->resource->write($path, $jpeg_quality);
-
         return $this;
     }
-
     /**
      * Gets the current image resource.
      *
@@ -322,7 +284,6 @@ class Imanee
     {
         return $this->resource;
     }
-
     /**
      * Sets the current Image Resource.
      *
@@ -331,12 +292,10 @@ class Imanee
     public function setResource(ImageResourceInterface $resource)
     {
         $this->resource = $resource;
-
         if ($this->resource instanceof ImageFilterableInterface) {
             $this->filterResolver = new FilterResolver($this->resource->loadFilters());
         }
     }
-
     /**
      * @return FilterResolver
      */
@@ -344,7 +303,6 @@ class Imanee
     {
         return $this->filterResolver;
     }
-
     /**
      * Adjusts the font size of the Drawer object to fit a text in the desired width.
      *
@@ -358,22 +316,18 @@ class Imanee
      */
     public function adjustFontSize($text, Drawer $drawer, $width)
     {
-        if (! ($this->resource instanceof ImageWritableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageWritableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         $fontSize = 0;
         $metrics['width'] = 0;
-
         while ($metrics['width'] <= $width) {
             $drawer->setFontSize($fontSize);
             $metrics = $this->resource->getTextGeometry($text, $drawer);
             $fontSize++;
         }
-
         return $drawer;
     }
-
     /**
      * Places a text on top of the current image, for writing text using relative positioning. To
      * overwrite the current Drawer settings, create a custom Drawer object and use the setDrawer()
@@ -392,35 +346,19 @@ class Imanee
      */
     public function placeText($text, $place_constant = Imanee::IM_POS_TOP_LEFT, $fitWidth = 0, $fontSize = 0)
     {
-        if (! ($this->resource instanceof ImageWritableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageWritableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         if ($fontSize) {
             $this->getDrawer()->setFontSize($fontSize);
         }
-
         if ($fitWidth > 0) {
             $this->setDrawer($this->adjustFontSize($text, $this->getDrawer(), $fitWidth));
         }
-
-        list ($coordX, $coordY) = PixelMath::getPlacementCoordinates(
-            $this->resource->getTextGeometry($text, $this->getDrawer()),
-            $this->getSize(),
-            $place_constant
-        );
-
-        $this->resource->annotate(
-            $text,
-            $coordX,
-            $coordY + $this->resource->getFontSize($this->getDrawer()),
-            0,
-            $this->getDrawer()
-        );
-
+        list($coordX, $coordY) = PixelMath::getPlacementCoordinates($this->resource->getTextGeometry($text, $this->getDrawer()), $this->getSize(), $place_constant);
+        $this->resource->annotate($text, $coordX, $coordY + $this->resource->getFontSize($this->getDrawer()), 0, $this->getDrawer());
         return $this;
     }
-
     /**
      * Writes text to an image.
      *
@@ -435,20 +373,16 @@ class Imanee
      */
     public function annotate($text, $coordX, $coordY, $size = null, $angle = 0)
     {
-        if (! ($this->resource instanceof ImageWritableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageWritableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         $drawer = $this->getDrawer();
-
         if ($size) {
             $drawer->setFontSize($size);
         }
         $this->resource->annotate($text, $coordX, $coordY, $angle, $drawer);
-
         return $this;
     }
-
     /**
      * Sets the drawer. Use this to change the default text settings.
      *
@@ -459,10 +393,8 @@ class Imanee
     public function setDrawer(Drawer $drawer)
     {
         $this->drawer = $drawer;
-
         return $this;
     }
-
     /**
      * Gets the current drawer in use.
      *
@@ -472,7 +404,6 @@ class Imanee
     {
         return $this->drawer;
     }
-
     /**
      * @param mixed $image        Path to an image on filesystem or an Imanee Object.
      * @param int   $coordX       X coordinate for placement.
@@ -487,15 +418,12 @@ class Imanee
      */
     public function compositeImage($image, $coordX, $coordY, $width = 0, $height = 0, $transparency = 0)
     {
-        if (! ($this->resource instanceof ImageComposableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageComposableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         $this->resource->compositeImage($image, $coordX, $coordY, $width, $height, $transparency);
-
         return $this;
     }
-
     /**
      * Places an image on top of the current resource. If the width and height are supplied, will
      * perform a resize before placing the image.
@@ -513,42 +441,26 @@ class Imanee
      * @throws UnsupportedMethodException
      * @throws UnsupportedFormatException
      */
-    public function placeImage(
-        $image,
-        $place_constant = Imanee::IM_POS_TOP_LEFT,
-        $width = null,
-        $height = null,
-        $transparency = 0
-    ) {
-        if (! ($this->resource instanceof ImageComposableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+    public function placeImage($image, $place_constant = Imanee::IM_POS_TOP_LEFT, $width = null, $height = null, $transparency = 0)
+    {
+        if (!$this->resource instanceof ImageComposableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         if (!is_object($image)) {
             $img = clone $this;
             $img->load($image);
             $image = $img;
         }
-
-        if (! ($image instanceof \Imanee\Imanee)) {
+        if (!$image instanceof \Imanee\Imanee) {
             throw new UnsupportedFormatException('Object not supported. It must be an instance of Imanee');
         }
-
         if ($width and $height) {
             $image->resize($width, $height);
         }
-
-        list ($coordX, $coordY) = PixelMath::getPlacementCoordinates(
-            $image->getSize(),
-            ['width' => $this->getWidth(), 'height' => $this->getHeight()],
-            $place_constant
-        );
-
+        list($coordX, $coordY) = PixelMath::getPlacementCoordinates($image->getSize(), array('width' => $this->getWidth(), 'height' => $this->getHeight()), $place_constant);
         $this->resource->compositeImage($image, $coordX, $coordY, 0, 0, $transparency);
-
         return $this;
     }
-
     /**
      * Convenient method to place a watermark image on top of the current resource.
      *
@@ -561,10 +473,8 @@ class Imanee
     public function watermark($image, $place_constant = Imanee::IM_POS_BOTTOM_RIGHT, $transparency = 0)
     {
         $this->placeImage($image, $place_constant, 0, 0, $transparency);
-
         return $this;
     }
-
     /**
      * Gets loaded filters.
      *
@@ -574,13 +484,11 @@ class Imanee
      */
     public function getFilters()
     {
-        if (! ($this->resource instanceof ImageFilterableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageFilterableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         return $this->getFilterResolver()->getFilters();
     }
-
     /**
      * Adds a custom filter to the FilterResolver.
      *
@@ -592,15 +500,12 @@ class Imanee
      */
     public function addFilter(FilterInterface $filter)
     {
-        if (! ($this->resource instanceof ImageFilterableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageFilterableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         $this->getFilterResolver()->addFilter($filter);
-
         return $this;
     }
-
     /**
      * Tries to apply the specified filter to the current resource.
      *
@@ -612,23 +517,18 @@ class Imanee
      * @throws FilterNotFoundException
      * @throws UnsupportedMethodException
      */
-    public function applyFilter($filter, array $options = [])
+    public function applyFilter($filter, array $options = array())
     {
-        if (! ($this->resource instanceof ImageFilterableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageFilterableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         $filter = $this->getFilterResolver()->resolve($filter);
-
         if (!$filter) {
             throw new FilterNotFoundException();
         }
-
         $filter->apply($this, $options);
-
         return $this;
     }
-
     /**
      * Shortcut for adding filters.
      *
@@ -641,10 +541,8 @@ class Imanee
         foreach ($frames as $frame) {
             $this->addFrame($frame);
         }
-
         return $this;
     }
-
     /**
      * Adds a frame for generating animated GIFs with the animate() method.
      *
@@ -655,10 +553,8 @@ class Imanee
     public function addFrame($frame)
     {
         $this->frames[] = $frame;
-
         return $this;
     }
-
     /**
      * @return Imanee[]
      */
@@ -666,7 +562,6 @@ class Imanee
     {
         return $this->frames;
     }
-
     /**
      * @param int $delay
      *
@@ -676,13 +571,11 @@ class Imanee
      */
     public function animate($delay = 20)
     {
-        if (! ($this->resource instanceof ImageAnimatableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$this->resource instanceof ImageAnimatableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
         return $this->resource->animate($this->getFrames(), $delay);
     }
-
     /**
      * Generates text-only images.
      *
@@ -693,28 +586,18 @@ class Imanee
      *
      * @return Imanee
      */
-    public static function textGen(
-        $text,
-        Drawer $drawer = null,
-        $format = 'png',
-        $background = 'transparent',
-        ImageResourceInterface $resource = null
-    ) {
+    public static function textGen($text, Drawer $drawer = null, $format = 'png', $background = 'transparent', ImageResourceInterface $resource = null)
+    {
         $imanee = new Imanee(null, $resource);
-
         if ($drawer !== null) {
             $imanee->setDrawer($drawer);
         }
-
         $size = $imanee->resource->getTextGeometry($text, $imanee->getDrawer());
         $imanee->newImage($size['width'], $size['height'], $background);
         $imanee->setFormat($format);
-
         $imanee->placeText($text, Imanee::IM_POS_TOP_LEFT);
-
         return $imanee;
     }
-
     /**
      * Generates an animated gif from an array of images.
      *
@@ -728,16 +611,11 @@ class Imanee
     public static function arrayAnimate(array $images, $delay = 20)
     {
         $imanee = new Imanee();
-
-        if (! ($imanee->resource instanceof ImageAnimatableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$imanee->resource instanceof ImageAnimatableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
-        return $imanee
-           ->resource
-           ->animate($images, $delay);
+        return $imanee->resource->animate($images, $delay);
     }
-
     /**
      * Generates an animated gif from image files in a directory.
      *
@@ -751,22 +629,15 @@ class Imanee
     public static function globAnimate($pattern, $delay = 20)
     {
         $imanee = new Imanee();
-
-        if (! ($imanee->resource instanceof ImageAnimatableInterface)) {
-            throw new UnsupportedMethodException("This method is not supported by the ImageResource in use.");
+        if (!$imanee->resource instanceof ImageAnimatableInterface) {
+            throw new UnsupportedMethodException('This method is not supported by the ImageResource in use.');
         }
-
-        $frames = [];
-
+        $frames = array();
         foreach (glob($pattern) as $image) {
             $frames[] = $image;
         }
-
-        return $imanee
-            ->resource
-            ->animate($frames, $delay);
+        return $imanee->resource->animate($frames, $delay);
     }
-
     /**
      * Get info about an image saved in disk.
      *
@@ -779,17 +650,9 @@ class Imanee
     public static function getImageInfo($imagePath)
     {
         if (!is_file($imagePath)) {
-            throw new ImageNotFoundException(
-                sprintf("File '%s' not found. Are you sure this is the right path?", $imagePath)
-            );
+            throw new ImageNotFoundException(sprintf('File \'%s\' not found. Are you sure this is the right path?', $imagePath));
         }
-
         $info = getimagesize($imagePath);
-
-        return [
-            'mime' => $info['mime'],
-            'width' => $info[0],
-            'height' => $info[1],
-        ];
+        return array('mime' => $info['mime'], 'width' => $info[0], 'height' => $info[1]);
     }
 }

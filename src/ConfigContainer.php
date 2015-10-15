@@ -5,16 +5,14 @@ namespace Imanee;
 abstract class ConfigContainer
 {
     protected $config;
-
     /**
      * @param array $defaults
      * @param array $values
      */
-    public function __construct(array $defaults = [], array $values = [])
+    public function __construct(array $defaults = array(), array $values = array())
     {
         $this->config = array_merge($defaults, $values);
     }
-
     /**
      * @param $param
      *
@@ -24,7 +22,6 @@ abstract class ConfigContainer
     {
         return $this->get($param);
     }
-
     /**
      * @param string $name
      * @param string $value
@@ -33,7 +30,6 @@ abstract class ConfigContainer
     {
         $this->config[$name] = $value;
     }
-
     /**
      * @param string      $param
      * @param string|null $default
@@ -44,7 +40,6 @@ abstract class ConfigContainer
     {
         return array_key_exists($param, $this->config) ? $this->config[$param] : $default;
     }
-
     /**
      * @param string $name
      * @param string $value
@@ -54,7 +49,6 @@ abstract class ConfigContainer
     public function set($name, $value)
     {
         $this->config[$name] = $value;
-
         return $this;
     }
 }

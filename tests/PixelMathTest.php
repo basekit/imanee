@@ -25,10 +25,10 @@ class PixelMathTest extends PHPUnit_Framework_TestCase
     public function testShouldReturnDimensionsThatExactlyFitInTargetImage()
     {
         $this->assertEquals(
-            [
+            array(
                 'width' => 100,
                 'height' => 80
-            ],
+            ),
             $this->pixelMath->getBestFit(
                 100,
                 80,
@@ -38,10 +38,10 @@ class PixelMathTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            [
+            array(
                 'width' => 100,
                 'height' => 80
-            ],
+            ),
             $this->pixelMath->getMaxFit(
                 100,
                 80,
@@ -54,10 +54,10 @@ class PixelMathTest extends PHPUnit_Framework_TestCase
     public function testShouldReturnDimensionsUsingTargetDimensionsAsAMaximumWhenProportionsDoNotMatch()
     {
         $this->assertEquals(
-            [
+            array(
                 'width' => 20,
                 'height' => 80
-            ],
+            ),
             $this->pixelMath->getBestFit(
                 100,
                 80,
@@ -70,10 +70,10 @@ class PixelMathTest extends PHPUnit_Framework_TestCase
     public function testShouldReturnDimensionsUsingTargetDimensionsAsAMinimumWhenProportionsDoNotMatch()
     {
         $this->assertEquals(
-            [
+            array(
                 'width' => 800,
                 'height' => 100
-            ],
+            ),
             $this->pixelMath->getMaxFit(
                 80,
                 100,
@@ -99,61 +99,61 @@ class PixelMathTest extends PHPUnit_Framework_TestCase
      */
     public function coordinatesProvider()
     {
-        return [
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+        return array(
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_TOP_LEFT,
-                'expectedCoordinates' => [0, 0]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(0, 0)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_TOP_CENTER,
-                'expectedCoordinates' => [45, 0]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(45, 0)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_TOP_RIGHT,
-                'expectedCoordinates' => [90, 0]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(90, 0)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_MID_LEFT,
-                'expectedCoordinates' => [0, 47]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(0, 47)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_MID_CENTER,
-                'expectedCoordinates' => [45, 47]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(45, 47)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_MID_RIGHT,
-                'expectedCoordinates' => [90, 47]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(90, 47)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_BOTTOM_LEFT,
-                'expectedCoordinates' => [0, 95]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(0, 95)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_BOTTOM_CENTER,
-                'expectedCoordinates' => [45, 95]
-            ],
-            [
-                'resourceSize' => ['width' => 10, 'height' => 5],
-                'size' => ['width' => 100, 'height' => 100],
+                'expectedCoordinates' => array(45, 95)
+            ),
+            array(
+                'resourceSize' => array('width' => 10, 'height' => 5),
+                'size' => array('width' => 100, 'height' => 100),
                 'pos' => Imanee::IM_POS_BOTTOM_RIGHT,
-                'expectedCoordinates' => [90, 95]
-            ],
-        ];
+                'expectedCoordinates' => array(90, 95)
+            ),
+        );
     }
 }

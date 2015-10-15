@@ -5,7 +5,6 @@ namespace Imanee\Filter\GD;
 use Imanee\ImageResource\GDPixel;
 use Imanee\Imanee;
 use Imanee\Model\FilterInterface;
-
 /**
  * Adds color to greyscale images.
  */
@@ -14,16 +13,14 @@ class ColorFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(Imanee $imanee, array $options = [])
+    public function apply(Imanee $imanee, array $options = array())
     {
         /** @var resource $resource */
         $resource = $imanee->getResource()->getResource();
-        $options = array_merge(['color' => 'blue'], $options);
-
+        $options = array_merge(array('color' => 'blue'), $options);
         $pixel = new GDPixel($options['color']);
         imagefilter($resource, IMG_FILTER_COLORIZE, $pixel->channelR, $pixel->channelG, $pixel->channelB);
     }
-
     /**
      * {@inheritdoc}
      */

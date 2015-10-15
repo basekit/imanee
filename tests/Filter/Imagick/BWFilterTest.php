@@ -30,7 +30,7 @@ class BWFilterTest extends \PHPUnit_Framework_TestCase
     public function testShouldApplyFilter()
     {
         $imagick = $this->getMockBuilder('\Imagick')
-            ->setMethods(['modulateImage'])
+            ->setMethods(array('modulateImage'))
             ->getMock();
 
         $imagick->expects($this->once())
@@ -38,11 +38,11 @@ class BWFilterTest extends \PHPUnit_Framework_TestCase
             ->with(100, 0, 100);
 
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imresource = $this->getMockBuilder('Imanee\ImageResource\ImagickResource')
-            ->setMethods(['getResource', 'updateResourceDimensions'])
+            ->setMethods(array('getResource', 'updateResourceDimensions'))
             ->getMock();
 
         $imanee->expects($this->once())

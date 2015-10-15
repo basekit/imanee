@@ -30,7 +30,7 @@ class ModulateFilterTest extends \PHPUnit_Framework_TestCase
     public function testShouldApplyFilter()
     {
         $imagick = $this->getMockBuilder('\Imagick')
-            ->setMethods(['modulateImage'])
+            ->setMethods(array('modulateImage'))
             ->getMock();
 
         $imagick->expects($this->once())
@@ -38,11 +38,11 @@ class ModulateFilterTest extends \PHPUnit_Framework_TestCase
             ->with(90, 50, 90);
 
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imresource = $this->getMockBuilder('Imanee\ImageResource\ImagickResource')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imanee->expects($this->once())
@@ -53,11 +53,10 @@ class ModulateFilterTest extends \PHPUnit_Framework_TestCase
             ->method('getResource')
             ->will($this->returnValue($imagick));
 
-
-        $this->model->apply($imanee, [
+        $this->model->apply($imanee, array(
             'brightness' => 90,
             'saturation' => 50,
             'hue'        => 90,
-        ]);
+        ));
     }
 }

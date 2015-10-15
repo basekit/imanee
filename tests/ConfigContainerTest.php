@@ -21,15 +21,15 @@ class ConfigContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorShouldSetDefaults()
     {
-        $defaults = [
+        $defaults = array(
             'option1' => 'value1',
             'option2' => 'value2',
-        ];
+        );
 
-        $values = [
+        $values = array(
             'option1' => 'newValue',
             'option3' => 'value3',
-        ];
+        );
 
         $config = $this->getMockForAbstractClass('Imanee\ConfigContainer');
 

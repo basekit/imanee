@@ -3,7 +3,6 @@
 namespace Imanee\Model;
 
 use Exception;
-
 /**
  * Composes an image from multiple layers.
  */

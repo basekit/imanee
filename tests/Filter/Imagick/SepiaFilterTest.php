@@ -30,7 +30,7 @@ class SepiaFilterTest extends \PHPUnit_Framework_TestCase
     public function testShouldApplyFilter()
     {
         $imagick = $this->getMockBuilder('\Imagick')
-            ->setMethods(['sepiaToneImage'])
+            ->setMethods(array('sepiaToneImage'))
             ->getMock();
 
         $imagick->expects($this->once())
@@ -38,11 +38,11 @@ class SepiaFilterTest extends \PHPUnit_Framework_TestCase
             ->with(90);
 
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imresource = $this->getMockBuilder('Imanee\ImageResource\ImagickResource')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imanee->expects($this->once())
@@ -53,6 +53,6 @@ class SepiaFilterTest extends \PHPUnit_Framework_TestCase
             ->method('getResource')
             ->will($this->returnValue($imagick));
 
-        $this->model->apply($imanee, [ 'threshold' => 90 ]);
+        $this->model->apply($imanee, array( 'threshold' => 90 ));
     }
 }

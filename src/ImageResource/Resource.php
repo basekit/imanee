@@ -10,49 +10,42 @@ abstract class Resource
      * @var mixed
      */
     protected $resource;
-
     /**
      * Path to the current image resource.
      *
      * @var string
      */
     public $imagePath;
-
     /**
      * Image mime type.
      *
      * @var string
      */
     public $mime;
-
     /**
      * Format (based on mime type).
      *
      * @var string
      */
     public $format;
-
     /**
      * Image width.
      *
      * @var int
      */
     public $width;
-
     /**
      * Image height.
      *
      * @var int
      */
     public $height;
-
     /**
      * Image background.
      *
      * @var string
      */
     public $background;
-
     /**
      * @return string
      */
@@ -60,7 +53,6 @@ abstract class Resource
     {
         return $this->imagePath;
     }
-
     /**
      * @return string
      */
@@ -68,7 +60,6 @@ abstract class Resource
     {
         return $this->mime;
     }
-
     /**
      * @return string
      */
@@ -76,7 +67,6 @@ abstract class Resource
     {
         return $this->format;
     }
-
     /**
      * @return int
      */
@@ -84,7 +74,6 @@ abstract class Resource
     {
         return $this->width;
     }
-
     /**
      * @return int
      */
@@ -92,7 +81,6 @@ abstract class Resource
     {
         return $this->height;
     }
-
     /**
      * @return string
      */
@@ -100,7 +88,6 @@ abstract class Resource
     {
         return $this->background;
     }
-
     /**
      * @return mixed
      */
@@ -108,7 +95,6 @@ abstract class Resource
     {
         return $this->resource;
     }
-
     /**
      * @param mixed $resource
      *
@@ -117,17 +103,13 @@ abstract class Resource
     public function setResource($resource)
     {
         $this->resource = $resource;
-
         $this->updateResourceDimensions();
-
         return $this;
     }
-
     /**
      * @return $this
      */
-    abstract protected function updateResourceDimensions();
-
+    protected abstract function updateResourceDimensions();
     /**
      * @param string $format
      *
@@ -136,7 +118,6 @@ abstract class Resource
     public function setFormat($format)
     {
         $this->format = $format;
-
         return $this;
     }
 }

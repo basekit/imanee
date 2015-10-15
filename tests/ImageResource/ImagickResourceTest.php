@@ -33,7 +33,7 @@ class ImagickResourceTest extends \PHPUnit_Framework_TestCase
     {
         $resource = $this->getMockBuilder('\Imagick')
             ->disableOriginalConstructor()
-            ->setMethods(['newImage', 'getImageGeometry'])
+            ->setMethods(array('newImage', 'getImageGeometry'))
             ->getMock();
 
         $resource->expects($this->once())

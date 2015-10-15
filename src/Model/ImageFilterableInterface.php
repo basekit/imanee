@@ -3,7 +3,6 @@
 namespace Imanee\Model;
 
 use Imanee\Model\FilterInterface;
-
 /**
  * Applies filters to an image.
  */

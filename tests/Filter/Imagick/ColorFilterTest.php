@@ -30,7 +30,7 @@ class ColorFilterTest extends \PHPUnit_Framework_TestCase
     public function testShouldApplyFilter()
     {
         $imagick = $this->getMockBuilder('\Imagick')
-            ->setMethods(['colorizeImage'])
+            ->setMethods(array('colorizeImage'))
             ->getMock();
 
         $imagick->expects($this->once())
@@ -38,11 +38,11 @@ class ColorFilterTest extends \PHPUnit_Framework_TestCase
             ->with('red', 1);
 
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imresource = $this->getMockBuilder('Imanee\ImageResource\ImagickResource')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imanee->expects($this->once())
@@ -53,6 +53,6 @@ class ColorFilterTest extends \PHPUnit_Framework_TestCase
             ->method('getResource')
             ->will($this->returnValue($imagick));
 
-        $this->model->apply($imanee, [ 'color' => 'red' ]);
+        $this->model->apply($imanee, array( 'color' => 'red' ));
     }
 }

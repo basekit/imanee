@@ -3,7 +3,6 @@
 namespace Imanee\Model;
 
 use Imanee\Imanee;
-
 /**
  * Creates animations for an image.
  */

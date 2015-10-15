@@ -30,7 +30,7 @@ class GaussianFilterTest extends \PHPUnit_Framework_TestCase
     public function testShouldApplyFilter()
     {
         $imagick = $this->getMockBuilder('\Imagick')
-            ->setMethods(['gaussianBlurImage'])
+            ->setMethods(array('gaussianBlurImage'))
             ->getMock();
 
         $imagick->expects($this->once())
@@ -38,11 +38,11 @@ class GaussianFilterTest extends \PHPUnit_Framework_TestCase
             ->with(2, 2);
 
         $imanee = $this->getMockBuilder('Imanee\Imanee')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imresource = $this->getMockBuilder('Imanee\ImageResource\ImagickResource')
-            ->setMethods(['getResource'])
+            ->setMethods(array('getResource'))
             ->getMock();
 
         $imanee->expects($this->once())
@@ -53,6 +53,6 @@ class GaussianFilterTest extends \PHPUnit_Framework_TestCase
             ->method('getResource')
             ->will($this->returnValue($imagick));
 
-        $this->model->apply($imanee, ['radius' => 2, 'sigma' => 2]);
+        $this->model->apply($imanee, array('radius' => 2, 'sigma' => 2));
     }
 }

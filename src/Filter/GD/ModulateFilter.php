@@ -4,7 +4,6 @@ namespace Imanee\Filter\GD;
 
 use Imanee\Imanee;
 use Imanee\Model\FilterInterface;
-
 /**
  * Adjusts the brightness, hue and saturation of an image.
  *
@@ -15,20 +14,14 @@ class ModulateFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(Imanee $imanee, array $options = [])
+    public function apply(Imanee $imanee, array $options = array())
     {
         /** @var resource $resource */
         $resource = $imanee->getResource()->getResource();
-
-        $options = array_merge([
-            'brightness' => 50,
-            'contrast' => -10
-        ], $options);
-
+        $options = array_merge(array('brightness' => 50, 'contrast' => -10), $options);
         imagefilter($resource, IMG_FILTER_BRIGHTNESS, $options['brightness']);
         imagefilter($resource, IMG_FILTER_CONTRAST, $options['saturation']);
     }
-
     /**
      * {@inheritdoc}
      */

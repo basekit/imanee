@@ -22,16 +22,10 @@ use Imanee\Model\ImageAnimatableInterface;
 use Imanee\Model\ImageComposableInterface;
 use Imanee\Model\ImageWritableInterface;
 use Imanee\Model\ImageFilterableInterface;
-
 /**
  * Imagick-based image manipulator.
  */
-class ImagickResource extends Resource implements
-    ImageResourceInterface,
-    ImageWritableInterface,
-    ImageComposableInterface,
-    ImageFilterableInterface,
-    ImageAnimatableInterface
+class ImagickResource extends Resource implements ImageResourceInterface, ImageWritableInterface, ImageComposableInterface, ImageFilterableInterface, ImageAnimatableInterface
 {
     /**
      * Underlying image resource handle.
@@ -39,54 +33,46 @@ class ImagickResource extends Resource implements
      * @var resource
      */
     public $resource;
-
     /**
      * Path to the current image resource.
      *
      * @var string
      */
     public $imagePath;
-
     /**
      * Image mime type.
      *
      * @var string
      */
     public $mime;
-
     /**
      * Format (based on mime type).
      *
      * @var string
      */
     public $format;
-
     /**
      * Image width.
      *
      * @var int
      */
     public $width;
-
     /**
      * Image height.
      *
      * @var int
      */
     public $height;
-
     /**
      * Image background.
      *
      * @var string
      */
     public $background;
-
     public function __construct()
     {
         $this->resource = new Imagick();
     }
-
     /**
      * {@inheritdoc}
      */
@@ -94,59 +80,46 @@ class ImagickResource extends Resource implements
     {
         $this->resource = clone $this->resource;
     }
-
     /**
      * {@inheritdoc}
      */
     public function load($imagePath)
     {
         if (!is_file($imagePath)) {
-            throw new ImageNotFoundException(
-                sprintf("File '%s' not found. Are you sure this is the right path?", $imagePath)
-            );
+            throw new ImageNotFoundException(sprintf('File \'%s\' not found. Are you sure this is the right path?', $imagePath));
         }
-
         $info = Imanee::getImageInfo($imagePath);
         $this->mime = strtolower($info['mime']);
         $this->width = $info['width'];
         $this->height = $info['height'];
         $this->imagePath = $imagePath;
-
         $this->resource = new Imagick($this->imagePath);
-
         return $this;
     }
-
     /**
      * {@inheritdoc}
      */
     public function createNew($width, $height, $background = 'white')
     {
-        $this->width      = $width;
-        $this->height     = $height;
+        $this->width = $width;
+        $this->height = $height;
         $this->background = $background;
-
         return $this->resource->newImage($width, $height, new ImagickPixel($background));
     }
-
     /**
      * {@inheritdoc}
      */
     public function resize($width, $height, $bestfit = true)
     {
         if ($this->isBlank()) {
-            throw new EmptyImageException("You are trying to resize an empty image.");
+            throw new EmptyImageException('You are trying to resize an empty image.');
         }
-
         if ($this->resource->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1, $bestfit)) {
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -154,7 +127,6 @@ class ImagickResource extends Resource implements
     {
         $this->resource->setImageFormat($format);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -162,21 +134,17 @@ class ImagickResource extends Resource implements
     {
         return $this->resource->getImageFormat();
     }
-
     /**
      * {@inheritdoc}
      */
-    public function rotate($degrees = 90.00, $background = 'transparent')
+    public function rotate($degrees = 90.0, $background = 'transparent')
     {
         if ($this->resource->rotateimage(new ImagickPixel($background), $degrees)) {
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -184,16 +152,12 @@ class ImagickResource extends Resource implements
     {
         $this->width = $width;
         $this->height = $height;
-
         if ($this->resource->cropImage($width, $height, $coordX, $coordY)) {
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -204,38 +168,30 @@ class ImagickResource extends Resource implements
         } else {
             $return = $this->resource->thumbnailImage($width, $height, true);
         }
-
         if ($return) {
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
     public function output($format = null)
     {
         if ($this->isBlank()) {
-            throw new EmptyImageException("You are trying to output an empty image.");
+            throw new EmptyImageException('You are trying to output an empty image.');
         }
-
         try {
             $format = $this->getFormat();
         } catch (ImagickException $e) {
             $this->setFormat('jpg');
         }
-
         if ($format !== null) {
             $this->resource->setImageFormat($format);
         }
-
         return $this->resource->getImagesBlob();
     }
-
     /**
      * {@inheritdoc}
      */
@@ -245,20 +201,17 @@ class ImagickResource extends Resource implements
             $this->resource->setImageCompression(Imagick::COMPRESSION_JPEG);
             $this->resource->setImageCompressionQuality($jpeg_quality);
         }
-
         return $this->resource->writeImages($file, true);
     }
-
     /**
      * {@inheritdoc}
      */
     public function updateResourceDimensions()
     {
         $newsize = $this->resource->getImageGeometry();
-        $this->width  = $newsize['width'];
+        $this->width = $newsize['width'];
         $this->height = $newsize['height'];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -266,7 +219,6 @@ class ImagickResource extends Resource implements
     {
         return $this->background;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -275,24 +227,19 @@ class ImagickResource extends Resource implements
         if (!is_object($image)) {
             $img = new Imagick($image);
         } else {
-            if (! ($image instanceof Imanee)) {
+            if (!$image instanceof Imanee) {
                 throw new Exception('Object not supported. It must be an instance of Imanee');
             }
-
             $img = $image->getResource()->getResource();
         }
-
         if ($width and $height) {
             $img->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
         }
-
         if ($transparency > 0) {
             $this->setOpacity($img, $transparency);
         }
-
         return $this->resource->compositeImage($img, Imagick::COMPOSITE_OVER, $coordX, $coordY);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -300,7 +247,6 @@ class ImagickResource extends Resource implements
     {
         return $this->resource->annotateImage($this->getImagickDraw($drawer), $coordX, $coordY, $angle, $text);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -308,20 +254,14 @@ class ImagickResource extends Resource implements
     {
         return $drawer->getFontSize();
     }
-
     /**
      * {@inheritdoc}
      */
     public function getTextGeometry($text, Drawer $drawer)
     {
         $metrics = $this->resource->queryFontMetrics($this->getImagickDraw($drawer), $text);
-
-        return [
-            'width'  => $metrics['textWidth'],
-            'height' => $metrics['textHeight'],
-        ];
+        return array('width' => $metrics['textWidth'], 'height' => $metrics['textHeight']);
     }
-
     /**
      * Translates the Drawer object to a ImagickDraw.
      *
@@ -332,15 +272,12 @@ class ImagickResource extends Resource implements
     public function getImagickDraw(Drawer $drawer)
     {
         $imdraw = new ImagickDraw();
-
         $imdraw->setFont($drawer->getFont());
         $imdraw->setFillColor($drawer->getFontColor());
         $imdraw->setFontSize($drawer->getFontSize());
         $imdraw->setTextAlignment($drawer->getTextAlign());
-
         return $imdraw;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -348,28 +285,22 @@ class ImagickResource extends Resource implements
     {
         $gif = new Imagick();
         $gif->setFormat('gif');
-
         foreach ($frames as $im) {
             if ($im instanceof Imanee) {
                 $frame = $im->getResource()->getResource();
             } else {
                 $frame = new Imagick($im);
             }
-
             $frame->setImageDelay($delay);
             $gif->addImage($frame);
         }
-
         $imagickResource = new ImagickResource();
         $imagickResource->setResource($gif);
-
         $imanee = new Imanee();
         $imanee->setResource($imagickResource);
         $imanee->setFormat('gif');
-
         return $imanee;
     }
-
     /**
      * Returns true if the resource is empty (no file was loaded or no new image created).
      *
@@ -379,7 +310,6 @@ class ImagickResource extends Resource implements
     {
         return !$this->width;
     }
-
     /**
      * Manually sets the transparency pixel per pixel.
      *
@@ -395,39 +325,25 @@ class ImagickResource extends Resource implements
     public function setOpacity(Imagick $resource, $transparency)
     {
         $alpha = $transparency / 100;
-
         if ($alpha >= 1) {
             return true;
         }
-
         $rows = $resource->getPixelIterator();
-
         foreach ($rows as $cols) {
             foreach ($cols as $pixel) {
-
                 /** @var ImagickPixel $pixel */
                 $current = $pixel->getColorValue(Imagick::COLOR_ALPHA);
-
-                $pixel->setColorValue(Imagick::COLOR_ALPHA, (($current - $alpha > 0) ? ($current - $alpha) : (0)));
-
+                $pixel->setColorValue(Imagick::COLOR_ALPHA, $current - $alpha > 0 ? $current - $alpha : 0);
                 $rows->syncIterator();
             }
         }
-
         return true;
     }
-
     /**
      * {@inheritdoc}
      */
     public function loadFilters()
     {
-        return [
-            new BWFilter(),
-            new ColorFilter(),
-            new ModulateFilter(),
-            new SepiaFilter(),
-            new GaussianFilter()
-        ];
+        return array(new BWFilter(), new ColorFilter(), new ModulateFilter(), new SepiaFilter(), new GaussianFilter());
     }
 }

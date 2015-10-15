@@ -7,30 +7,21 @@ namespace Imanee;
  */
 class Drawer extends ConfigContainer
 {
-    const TEXT_ALIGN_LEFT   = 1;
+    const TEXT_ALIGN_LEFT = 1;
     const TEXT_ALIGN_CENTER = 2;
-    const TEXT_ALIGN_RIGHT  = 3;
-
+    const TEXT_ALIGN_RIGHT = 3;
     /**
      * @var string
      */
     public static $DEFAULT_FONT = 'OpenSans-Regular.ttf';
-
     /**
      * @param array $values
      */
-    public function __construct(array $values = [])
+    public function __construct(array $values = array())
     {
-        $defaultFont = __DIR__ . '/Resources/'. self::$DEFAULT_FONT;
-
-        parent::__construct($values, [
-            'font'  => $defaultFont,
-            'size'  => 22,
-            'color' => '#000000',
-            'align' => Drawer::TEXT_ALIGN_LEFT,
-        ]);
+        $defaultFont = __DIR__ . '/Resources/' . self::$DEFAULT_FONT;
+        parent::__construct($values, array('font' => $defaultFont, 'size' => 22, 'color' => '#000000', 'align' => Drawer::TEXT_ALIGN_LEFT));
     }
-
     /**
      * Sets the font size.
      *
@@ -41,10 +32,8 @@ class Drawer extends ConfigContainer
     public function setFontSize($size)
     {
         $this->size = $size;
-
         return $this;
     }
-
     /**
      * Gets the font size.
      *
@@ -54,7 +43,6 @@ class Drawer extends ConfigContainer
     {
         return $this->size;
     }
-
     /**
      * Sets the font.
      *
@@ -65,10 +53,8 @@ class Drawer extends ConfigContainer
     public function setFont($font)
     {
         $this->font = $font;
-
         return $this;
     }
-
     /**
      * Gets the current font.
      *
@@ -78,7 +64,6 @@ class Drawer extends ConfigContainer
     {
         return $this->font;
     }
-
     /**
      * Sets the font color.
      *
@@ -90,10 +75,8 @@ class Drawer extends ConfigContainer
     public function setFontColor($color)
     {
         $this->color = $color;
-
         return $this;
     }
-
     /**
      * Gets the current font color.
      *
@@ -103,7 +86,6 @@ class Drawer extends ConfigContainer
     {
         return $this->color;
     }
-
     /**
      * Sets the text align.
      *
@@ -115,10 +97,8 @@ class Drawer extends ConfigContainer
     public function setTextAlign($align)
     {
         $this->align = (int) $align;
-
         return $this;
     }
-
     /**
      * Gets the current text align.
      *

@@ -4,7 +4,6 @@ namespace Imanee\Filter\Imagick;
 
 use Imanee\Imanee;
 use Imanee\Model\FilterInterface;
-
 /**
  * Adds color to greyscale images.
  */
@@ -13,15 +12,13 @@ class ColorFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(Imanee $imanee, array $options = [])
+    public function apply(Imanee $imanee, array $options = array())
     {
         /** @var \Imagick $resource */
         $resource = $imanee->getResource()->getResource();
-        $options = array_merge(['color' => 'blue'], $options);
-
+        $options = array_merge(array('color' => 'blue'), $options);
         return $resource->colorizeimage($options['color'], 1);
     }
-
     /**
      * {@inheritdoc}
      */

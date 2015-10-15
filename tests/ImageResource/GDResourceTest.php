@@ -19,11 +19,11 @@ class GDResourceTest extends \PHPUnit_Framework_TestCase
 
     public function imageTypeProvider()
     {
-        return [
-            ['jpg', 'image/jpeg'],
-            ['gif', 'image/gif'],
-            ['png', 'image/png'],
-        ];
+        return array(
+            array('jpg', 'image/jpeg'),
+            array('gif', 'image/gif'),
+            array('png', 'image/png'),
+        );
     }
 
     /**
@@ -60,11 +60,11 @@ class GDResourceTest extends \PHPUnit_Framework_TestCase
 
     public function badColorProvider()
     {
-        return [
-            ['AABBCCDD'],
-            ['foobar'],
-            ['#1234567'],
-        ];
+        return array(
+            array('AABBCCDD'),
+            array('foobar'),
+            array('#1234567'),
+        );
     }
 
     /**
@@ -115,10 +115,10 @@ class GDResourceTest extends \PHPUnit_Framework_TestCase
 
     public function imageProvider()
     {
-        return [
-            ['/_files/imanee.png'],
-            ['/_files/imanee.jpg'],
-            ['/_files/imanee.gif'],
-        ];
+        return array(
+            array('/_files/imanee.png'),
+            array('/_files/imanee.jpg'),
+            array('/_files/imanee.gif'),
+        );
     }
 }

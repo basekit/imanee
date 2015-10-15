@@ -16,15 +16,10 @@ use Imanee\Model\ImageResourceInterface;
 use Imanee\Model\ImageWritableInterface;
 use Imanee\PixelMath;
 use Imanee\Model\ImageFilterableInterface;
-
 /**
  * GD-based image manipulator.
  */
-class GDResource extends Resource implements
-    ImageResourceInterface,
-    ImageComposableInterface,
-    ImageWritableInterface,
-    ImageFilterableInterface
+class GDResource extends Resource implements ImageResourceInterface, ImageComposableInterface, ImageWritableInterface, ImageFilterableInterface
 {
     /**
      * Underlying image resource handle.
@@ -32,96 +27,77 @@ class GDResource extends Resource implements
      * @var resource
      */
     public $resource;
-
     /**
      * Path to the current image resource.
      *
      * @var string
      */
     public $imagePath;
-
     /**
      * Image mime type.
      *
      * @var string
      */
     public $mime;
-
     /**
      * Format (based on mime type).
      *
      * @var string
      */
     public $format;
-
     /**
      * Image width.
      *
      * @var int
      */
     public $width;
-
     /**
      * Image height.
      *
      * @var int
      */
     public $height;
-
     /**
      * Image background.
      *
      * @var string
      */
     public $background;
-
     /**
      * {@inheritdoc}
      */
     public function load($imagePath)
     {
         if (!is_file($imagePath)) {
-            throw new ImageNotFoundException(
-                sprintf("File '%s' not found. Are you sure this is the right path?", $imagePath)
-            );
+            throw new ImageNotFoundException(sprintf('File \'%s\' not found. Are you sure this is the right path?', $imagePath));
         }
-
         $info = Imanee::getImageInfo($imagePath);
         $this->mime = strtolower($info['mime']);
         $this->width = $info['width'];
         $this->height = $info['height'];
         $this->imagePath = $imagePath;
-
         switch ($this->getMime()) {
-
-            case "image/jpeg":
-            case "image/jpg":
-            case "image/pjpeg":
-            case "image/pjpg":
-                $this->format = "jpg";
+            case 'image/jpeg':
+            case 'image/jpg':
+            case 'image/pjpeg':
+            case 'image/pjpg':
+                $this->format = 'jpg';
                 $this->resource = imagecreatefromjpeg($imagePath);
                 break;
-
-            case "image/gif":
-                $this->format = "gif";
+            case 'image/gif':
+                $this->format = 'gif';
                 $this->resource = imagecreatefromgif($imagePath);
                 break;
-
-            case "image/png":
-                $this->format = "png";
+            case 'image/png':
+                $this->format = 'png';
                 $this->resource = imagecreatefrompng($imagePath);
                 break;
-
             default:
-                throw new UnsupportedFormatException(
-                    sprintf("The format '%s' is not supported by this Resource.", $this->getMime())
-                );
+                throw new UnsupportedFormatException(sprintf('The format \'%s\' is not supported by this Resource.', $this->getMime()));
                 break;
         }
-
         return $this;
     }
-
     /**
      * @param string $color
      *
@@ -131,7 +107,6 @@ class GDResource extends Resource implements
     {
         return GDPixel::load($color, $this->getResource());
     }
-
     /**
      * {@inheritdoc}
      */
@@ -140,13 +115,10 @@ class GDResource extends Resource implements
         if ($this->resource = imagecreatetruecolor($width, $height)) {
             imagefill($this->getResource(), 0, 0, $this->loadColor($background));
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -154,78 +126,43 @@ class GDResource extends Resource implements
     {
         $finalWidth = $width;
         $finalHeight = $height;
-
         if ($bestfit) {
             $bestFitDimensions = PixelMath::getBestFit($width, $height, $this->getWidth(), $this->getHeight());
             $finalWidth = $bestFitDimensions['width'];
             $finalHeight = $bestFitDimensions['height'];
         }
-
         $resized = $this->createBlank($finalHeight, $finalHeight);
-
-        if (imagecopyresampled(
-            $resized,
-            $this->getResource(),
-            0,
-            0,
-            0,
-            0,
-            $finalWidth,
-            $finalHeight,
-            $this->getWidth(),
-            $this->getHeight()
-        )) {
+        if (imagecopyresampled($resized, $this->getResource(), 0, 0, 0, 0, $finalWidth, $finalHeight, $this->getWidth(), $this->getHeight())) {
             $this->resource = $resized;
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
-    public function rotate($degrees = 90.00, $background = 'transparent')
+    public function rotate($degrees = 90.0, $background = 'transparent')
     {
         if ($this->resource = imagerotate($this->getResource(), $degrees, $this->loadColor($background))) {
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
     public function crop($width, $height, $coordX, $coordY)
     {
         $cropped = $this->createBlank($width, $height);
-
-        if (imagecopyresampled(
-            $cropped,
-            $this->getResource(),
-            0,
-            0,
-            $coordX,
-            $coordY,
-            $width,
-            $height,
-            $width,
-            $height
-        )) {
+        if (imagecopyresampled($cropped, $this->getResource(), 0, 0, $coordX, $coordY, $width, $height, $width, $height)) {
             $this->resource = $cropped;
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -233,43 +170,26 @@ class GDResource extends Resource implements
     {
         $sourceX = 0;
         $sourceY = 0;
-
         if ($crop) {
             $resizeDimensions = PixelMath::getMaxFit($width, $height, $this->getWidth(), $this->getHeight());
             $finalWidth = $width;
             $finalHeight = $height;
-            $sourceX = ($resizeDimensions['width'] / 2) - ($width / 2);
-            $sourceY = ($resizeDimensions['height'] / 2) - ($height / 2);
+            $sourceX = $resizeDimensions['width'] / 2 - $width / 2;
+            $sourceY = $resizeDimensions['height'] / 2 - $height / 2;
         } else {
             $resizeDimensions = PixelMath::getBestFit($width, $height, $this->getWidth(), $this->getHeight());
             $finalWidth = $resizeDimensions['width'];
             $finalHeight = $resizeDimensions['height'];
         }
-
         $this->resize($resizeDimensions['width'], $resizeDimensions['height'], false);
         $thumb = $this->createBlank($finalWidth, $finalHeight);
-
-        if (imagecopyresampled(
-            $thumb,
-            $this->getResource(),
-            0,
-            0,
-            $sourceX,
-            $sourceY,
-            $finalWidth,
-            $finalHeight,
-            $finalWidth,
-            $finalHeight
-        )) {
+        if (imagecopyresampled($thumb, $this->getResource(), 0, 0, $sourceX, $sourceY, $finalWidth, $finalHeight, $finalWidth, $finalHeight)) {
             $this->resource = $thumb;
             $this->updateResourceDimensions();
-
             return true;
         }
-
         return false;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -278,8 +198,8 @@ class GDResource extends Resource implements
         $format = $format ?: $this->format;
         ob_start();
         switch ($format) {
-            case "jpg":
-            case "jpeg":
+            case 'jpg':
+            case 'jpeg':
                 /**
                  * when converting from png (with alpha) to jpeg, we end up
                  * with a non-standard background colour (white instead of black)
@@ -287,32 +207,23 @@ class GDResource extends Resource implements
                 if ($this->getMime() === 'image/png') {
                     $this->fixPngToJpegDefaultBackgroundColor();
                 }
-
                 imagejpeg($this->getResource(), null, 90);
                 break;
-
-            case "gif":
+            case 'gif':
                 imagegif($this->getResource());
                 break;
-
-            case "png":
+            case 'png':
                 imagesavealpha($this->getResource(), true);
                 imagepng($this->getResource());
                 break;
-
             default:
                 ob_end_clean();
-                throw new UnsupportedFormatException(
-                    sprintf("The format '%s' is not supported by this Resource.", $this->getMime())
-                );
+                throw new UnsupportedFormatException(sprintf('The format \'%s\' is not supported by this Resource.', $this->getMime()));
         }
-
         $image = ob_get_contents();
         ob_end_clean();
-
         return $image;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -320,10 +231,9 @@ class GDResource extends Resource implements
     {
         $jpeg_quality = $jpeg_quality ?: 80;
         $this->setFormat($this->getExtensionByFileName($file));
-
         switch ($this->format) {
-            case "jpg":
-            case "jpeg":
+            case 'jpg':
+            case 'jpeg':
                 /**
                  * when converting from png (with alpha) to jpeg, we end up
                  * with a non-standard background colour (white instead of black)
@@ -331,26 +241,19 @@ class GDResource extends Resource implements
                 if ($this->getMime() === 'image/png') {
                     $this->fixPngToJpegDefaultBackgroundColor();
                 }
-
                 return imagejpeg($this->getResource(), $file, $jpeg_quality);
                 break;
-
-            case "gif":
+            case 'gif':
                 return imagegif($this->getResource(), $file);
                 break;
-
-            case "png":
+            case 'png':
                 imagesavealpha($this->getResource(), true);
                 return imagepng($this->getResource(), $file);
                 break;
-
             default:
-                throw new UnsupportedFormatException(
-                    sprintf("The format '%s' is not supported by this Resource.", $this->getMime())
-                );
+                throw new UnsupportedFormatException(sprintf('The format \'%s\' is not supported by this Resource.', $this->getMime()));
         }
     }
-
     /**
      * A workaround to keep compatibility with Imagick when writing images to disk.
      *
@@ -361,10 +264,8 @@ class GDResource extends Resource implements
     public function getExtensionByFileName($filepath)
     {
         $path = pathinfo($filepath);
-
         return $path['extension'];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -373,7 +274,6 @@ class GDResource extends Resource implements
         $this->width = imagesx($this->getResource());
         $this->height = imagesy($this->getResource());
     }
-
     /**
      * {@inheritdoc}
      */
@@ -382,11 +282,9 @@ class GDResource extends Resource implements
         if (!is_object($image)) {
             $image = new Imanee($image, new GDResource());
         }
-
-        if (! ($image instanceof \Imanee\Imanee)) {
+        if (!$image instanceof \Imanee\Imanee) {
             throw new \Exception('Object not supported. It must be an instance of Imanee');
         }
-
         if ($width and $height) {
             $dimensions = PixelMath::getBestFit($width, $height, $image->getWidth(), $image->getHeight());
             $width = $dimensions['width'];
@@ -395,23 +293,9 @@ class GDResource extends Resource implements
             $width = $image->getWidth();
             $height = $image->getHeight();
         }
-
         /* TODO: implement pixel per pixel transparency */
-
-        return imagecopyresampled(
-            $this->getResource(),
-            $image->getResource()->getResource(),
-            $coordX,
-            $coordY,
-            0,
-            0,
-            $width,
-            $height,
-            $image->getWidth(),
-            $image->getHeight()
-        );
+        return imagecopyresampled($this->getResource(), $image->getResource()->getResource(), $coordX, $coordY, 0, 0, $width, $height, $image->getWidth(), $image->getHeight());
     }
-
     /**
      * {@inheritdoc}
      */
@@ -419,51 +303,30 @@ class GDResource extends Resource implements
     {
         return $drawer->getFontSize() * 0.75;
     }
-
     /**
      * {@inheritdoc}
      */
     public function annotate($text, $coordX, $coordY, $angle, Drawer $drawer)
     {
         $color = GDPixel::load($drawer->getFontColor(), $this->getResource());
-
-        return imagettftext(
-            $this->getResource(),
-            $this->getFontSize($drawer),
-            $angle,
-            $coordX,
-            $coordY,
-            $color,
-            $drawer->getFont(),
-            $text
-        );
+        return imagettftext($this->getResource(), $this->getFontSize($drawer), $angle, $coordX, $coordY, $color, $drawer->getFont(), $text);
     }
-
     /**
      * {@inheritdoc}
      */
     public function getTextGeometry($text, Drawer $drawer)
     {
         $coords = imagettfbbox($this->getFontSize($drawer), 0, $drawer->getFont(), $text);
-
         $width = $coords[2] - $coords[0];
         $height = $coords[1] - $coords[7];
-
-        return ['width' => $width, 'height' => $height];
+        return array('width' => $width, 'height' => $height);
     }
-
     /**
      * {@inheritdoc}
      */
     public function loadFilters()
     {
-        return [
-            new BWFilter(),
-            new SepiaFilter(),
-            new ColorFilter(),
-            new ModulateFilter(),
-            new GaussianFilter()
-        ];
+        return array(new BWFilter(), new SepiaFilter(), new ColorFilter(), new ModulateFilter(), new GaussianFilter());
     }
     /**
      * Helper method which returns a blank GD resource.
@@ -476,7 +339,6 @@ class GDResource extends Resource implements
     private function createBlank($width, $height)
     {
         $blank = imagecreatetruecolor($width, $height);
-
         /**
          * This is not ideal when converting png to jpeg as instead of a default
          * black background we end up with a white one.
@@ -487,7 +349,6 @@ class GDResource extends Resource implements
             imagealphablending($blank, false);
             imagesavealpha($blank, true);
         }
-
         return $blank;
     }
     /**
@@ -497,20 +358,7 @@ class GDResource extends Resource implements
     private function fixPngToJpegDefaultBackgroundColor()
     {
         $black = imagecreatetruecolor($this->width, $this->height);
-
-        if (imagecopyresampled(
-                $black,
-                $this->getResource(),
-                0,
-                0,
-                0,
-                0,
-                $this->getWidth(),
-                $this->getHeight(),
-                $this->getWidth(),
-                $this->getHeight()
-            )
-        ) {
+        if (imagecopyresampled($black, $this->getResource(), 0, 0, 0, 0, $this->getWidth(), $this->getHeight(), $this->getWidth(), $this->getHeight())) {
             $this->resource = $black;
         }
     }
